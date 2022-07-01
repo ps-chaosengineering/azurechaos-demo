@@ -15,8 +15,8 @@ To run the PowerShell sample you will need:
    azure/template/1-chaostoolkit.ps1
    
 3. Deploy the azure resource for demo
-
-   azure/template/2-chaosdemo.ps1
+  cd  azure/template/
+  ./2-chaosdemo.ps1
    
 4. chaos demo
 
@@ -31,5 +31,7 @@ To run the PowerShell sample you will need:
   
   
  5. Remove the azure resource after demo
+     cd  azure/template/
+    ./3-rgremove.ps1
  
   
