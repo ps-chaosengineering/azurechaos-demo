@@ -112,8 +112,8 @@
                                     "ttl": 30
                                 },
                                 "monitorConfig": {
-                                    "protocol": "HTTPS",
-                                    "port": 443,
+                                    "protocol": "HTTP",
+                                    "port": 80,
                                     "path": "/",
                                     "intervalInSeconds": 10,
                                     "timeoutInSeconds": 5,
@@ -165,7 +165,7 @@
                                     "appSettings": [
                                         {
                                             "name": "WEBSITE_RUN_FROM_PACKAGE",
-                                            "value": "https://github.com/ps-chaosengineering/azurechaos-demo/raw/main/azure/html/regionA/regiona.zip"
+                                            "value": "https://github.com/ps-chaosengineering/azurechaos-demo/raw/master/azure/html/regionA/regiona.zip"
                                         }
                                     ]
                                 }
@@ -215,7 +215,7 @@
                                     "appSettings": [
                                         {
                                             "name": "WEBSITE_RUN_FROM_PACKAGE",
-                                            "value": "https://github.com/ps-chaosengineering/azurechaos-demo/raw/main/azure/html/regionB/regionb.zip"
+                                            "value": "https://github.com/ps-chaosengineering/azurechaos-demo/raw/master/azure/html/regionB/regionb.zip"
                                         }
                                     ]
                                 }
