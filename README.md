@@ -26,10 +26,9 @@ To run the PowerShell sample you will need:
 
   - cd chaos-experiments
   
-  - update devcontainer.ps1 with your details nd then excute 
+5. update devcontainer.ps1 with your subscription and service principal  details and then excute the script
   
   - ./devcontainer.ps1
-  
   - chaos run experiment.json
   
   
