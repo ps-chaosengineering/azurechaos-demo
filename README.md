@@ -8,14 +8,14 @@ To run the PowerShell sample you will need:
 - chaostoolkit-azure 0.10.0
 
 1.create the service principal in azure account 
-    
-    azure/template/0-azure-sp.ps1
+    cd azure/template
+    ./0-azure-sp.ps1
 2. Install chaostool kit
-
-   azure/template/1-chaostoolkit.ps1
+   cd azure/template
+   ./1-chaostoolkit.ps1
    
 3. Deploy the azure resource for demo
-  cd  azure/template/
+  cd  azure/template
   ./2-chaosdemo.ps1
    
 4. chaos demo
@@ -27,7 +27,6 @@ To run the PowerShell sample you will need:
   ./devcontainer.ps1
   
   chaos run experiment.json
-  
   
   
  5. Remove the azure resource after demo
