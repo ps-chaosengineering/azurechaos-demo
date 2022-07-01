@@ -1,0 +1,8 @@
+if (!(Get-AzContext)) {
+    Connect-AzAccount
+}
+
+$context = Get-AzContext
+
+Write-Host -ForegroundColor Yellow "👉 Creating Azure AD Service Principal.."
+az ad sp create-for-rbac --name "chaosdemo-app" --role contributor --scopes "/subscriptions/$($context.Subscription.Id)"

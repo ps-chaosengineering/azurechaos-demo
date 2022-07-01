@@ -1,0 +1,8 @@
+[36m[2022-06-28 10:32:25 DEBUG] [cli:112][39m ###############################################################################
+[36m[2022-06-28 10:32:25 DEBUG] [cli:113][39m Running command 'run'
+[36m[2022-06-28 10:32:25 DEBUG] [cli:117][39m Using settings file '/home/rethesh/.chaostoolkit/settings.yaml'
+[36m[2022-06-28 10:32:25 DEBUG] [settings:32][39m The Chaos Toolkit settings file could not be found at '/home/rethesh/.chaostoolkit/settings.yaml'.
+[36m[2022-06-28 10:32:25 DEBUG] [__init__:399][39m No controls to apply on 'loader'
+[36m[2022-06-28 10:32:25 DEBUG] [__init__:399][39m No controls to apply on 'loader'
+[31m[2022-06-28 10:32:25 ERROR] [cli:250][39m Path "./experiment.json" does not exist.
+[36m[2022-06-28 10:32:25 DEBUG] [cli:251][39m Path "./experiment.json" does not exist.

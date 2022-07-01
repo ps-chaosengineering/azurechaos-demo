@@ -1,0 +1,222 @@
+{
+  "chaoslib-version": "1.28.0",
+  "platform": "Linux-5.4.0-1085-azure-x86_64-with-debian-10.2",
+  "node": "cc-2808d04d-5d665b7965-w4zh6",
+  "experiment": {
+    "version": "1.0.0",
+    "title": "What is the impact on our application chain when Region A's App Serivce goes offline?",
+    "description": "N/A",
+    "tags": [
+      "azure",
+      "traffic manager",
+      "app services"
+    ],
+    "configuration": {
+      "azure_subscription_id": {
+        "type": "env",
+        "key": "AZURE_SUBSCRIPTION_ID"
+      },
+      "region_a_resource_group": {
+        "type": "env",
+        "key": "REGION_A_RESOURCE_GROUP"
+      },
+      "region_a_app_service": {
+        "type": "env",
+        "key": "REGION_A_APP_SERVICE"
+      },
+      "traffic_manager_endpoint": {
+        "type": "env",
+        "key": "TRAFFIC_MANAGER_ENDPOINT"
+      }
+    },
+    "secrets": {
+      "azure": {
+        "client_id": {
+          "type": "env",
+          "key": "AZURE_CLIENT_ID"
+        },
+        "client_secret": {
+          "type": "env",
+          "key": "AZURE_CLIENT_SECRET"
+        },
+        "tenant_id": {
+          "type": "env",
+          "key": "AZURE_TENANT_ID"
+        },
+        "azure_cloud": "AZURE_PUBLIC_CLOUD"
+      }
+    },
+    "steady-state-hypothesis": {
+      "title": "Application responds",
+      "probes": [
+        {
+          "type": "probe",
+          "name": "we-can-request-website",
+          "tolerance": 200,
+          "provider": {
+            "type": "http",
+            "timeout": 3,
+            "verify_tls": false,
+            "url": "https://${traffic_manager_endpoint}"
+          }
+        }
+      ]
+    },
+    "method": [
+      {
+        "type": "action",
+        "name": "stop-app-service-region-a",
+        "provider": {
+          "type": "python",
+          "module": "chaosazure.webapp.actions",
+          "func": "stop_webapp",
+          "arguments": {
+            "filter": "where resourceGroup=='${region_a_resource_group}' and name=='${region_a_app_service}'"
+          },
+          "secrets": [
+            "azure"
+          ],
+          "config": [
+            "azure_subscription_id"
+          ]
+        },
+        "pauses": {
+          "after": 100
+        }
+      }
+    ],
+    "rollbacks": [
+      {
+        "type": "action",
+        "name": "start-app-service-region-a",
+        "provider": {
+          "type": "python",
+          "module": "chaosazure.webapp.actions",
+          "func": "start_webapp",
+          "arguments": {
+            "filter": "where resourceGroup=='${region_a_resource_group}' and name=='${region_a_app_service}'"
+          },
+          "secrets": [
+            "azure"
+          ],
+          "config": [
+            "azure_subscription_id"
+          ]
+        }
+      }
+    ],
+    "dry": null
+  },
+  "start": "2022-07-01T02:18:21.335380",
+  "status": "failed",
+  "deviated": true,
+  "steady_states": {
+    "before": {
+      "steady_state_met": true,
+      "probes": [
+        {
+          "activity": {
+            "type": "probe",
+            "name": "we-can-request-website",
+            "tolerance": 200,
+            "provider": {
+              "type": "http",
+              "timeout": 3,
+              "verify_tls": false,
+              "url": "https://${traffic_manager_endpoint}"
+            }
+          },
+          "output": {
+            "status": 200,
+            "headers": {
+              "Content-Length": "287",
+              "Content-Type": "text/html",
+              "Date": "Fri, 01 Jul 2022 02:18:21 GMT",
+              "Server": "Microsoft-IIS/10.0",
+              "Accept-Ranges": "bytes",
+              "Content-Encoding": "gzip",
+              "ETag": "\"04b1ca7695d61:0\"",
+              "Last-Modified": "Sun, 27 Sep 2020 19:44:46 GMT",
+              "Set-Cookie": "ARRAffinity=99f97b025e42605e669248c3ec2ec7257b474a81da18cf976b59c93f0ccb2dac;Path=/;HttpOnly;Secure;Domain=chaostrafficmanager-e55b919e.trafficmanager.net, ARRAffinitySameSite=99f97b025e42605e669248c3ec2ec7257b474a81da18cf976b59c93f0ccb2dac;Path=/;HttpOnly;SameSite=None;Secure;Domain=chaostrafficmanager-e55b919e.trafficmanager.net",
+              "Vary": "Accept-Encoding",
+              "X-Powered-By": "ASP.NET"
+            },
+            "body": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Region A</title>\n</head>\n\n<body>\n    <h1>Hello from Region A!</h1>\n</body>\n\n</html>"
+          },
+          "status": "succeeded",
+          "start": "2022-07-01T02:18:21.336263",
+          "end": "2022-07-01T02:18:21.450985",
+          "duration": 0.114722,
+          "tolerance_met": true
+        }
+      ]
+    },
+    "after": {
+      "steady_state_met": false,
+      "probes": [
+        {
+          "activity": {
+            "type": "probe",
+            "name": "we-can-request-website",
+            "tolerance": 200,
+            "provider": {
+              "type": "http",
+              "timeout": 3,
+              "verify_tls": false,
+              "url": "https://${traffic_manager_endpoint}"
+            }
+          },
+          "output": {
+            "status": 404,
+            "headers": {
+              "Content-Length": "2775",
+              "Connection": "close",
+              "Content-Type": "text/html",
+              "Date": "Fri, 01 Jul 2022 02:20:03 GMT"
+            },
+            "body": "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>Microsoft Azure Web App - Error 404</title>\r\n    <style type=\"text/css\">\r\n        html {\r\n            height: 100%;\r\n            width: 100%;\r\n        }\r\n\r\n        #feature {\r\n            width: 960px;\r\n            margin: 75px auto 0 auto;\r\n            overflow: auto;\r\n        }\r\n\r\n        #content {\r\n            font-family: \"Segoe UI\";\r\n            font-weight: normal;\r\n            font-size: 22px;\r\n            color: #ffffff;\r\n            float: left;\r\n            margin-top: 68px;\r\n            margin-left: 0px;\r\n            vertical-align: middle;\r\n        }\r\n\r\n            #content h1 {\r\n                font-family: \"Segoe UI Light\";\r\n                color: #ffffff;\r\n                font-weight: normal;\r\n                font-size: 60px;\r\n                line-height: 48pt;\r\n                width: 800px;\r\n            }\r\n\r\n        a, a:visited, a:active, a:hover {\r\n            color: #ffffff;\r\n        }\r\n\r\n        #content a.button {\r\n            background: #0DBCF2;\r\n            border: 1px solid #FFFFFF;\r\n            color: #FFFFFF;\r\n            display: inline-block;\r\n            font-family: Segoe UI;\r\n            font-size: 24px;\r\n            line-height: 46px;\r\n            margin-top: 10px;\r\n            padding: 0 15px 3px;\r\n            text-decoration: none;\r\n        }\r\n\r\n            #content a.button img {\r\n                float: right;\r\n                padding: 10px 0 0 15px;\r\n            }\r\n\r\n            #content a.button:hover {\r\n                background: #1C75BC;\r\n            }\r\n    </style>\r\n    <script type=\"text/javascript\">\r\n        function toggle_visibility(id) {\r\n            var e = document.getElementById(id);\r\n            if (e.style.display == 'block')\r\n                e.style.display = 'none';\r\n            else\r\n                e.style.display = 'block';\r\n        }\r\n    </script>\r\n</head>\r\n<body bgcolor=\"#00abec\">\r\n    <div id=\"feature\">\r\n        <div id=\"content\">\r\n            <h1>404 Web Site not found.</h1>\r\n            <p>You may be seeing this error due to one of the reasons listed below :</p>\r\n            <ul>\r\n                <li>Custom domain has not been configured inside Azure. See <a href=\"https://docs.microsoft.com/en-us/azure/app-service-web/app-service-web-tutorial-custom-domain\">how to map an existing domain</a> to resolve this.</li>\r\n                <li>Client cache is still pointing the domain to old IP address. Clear the cache by running the command <i>ipconfig/flushdns.</i></li>\r\n            </ul>\r\n            <p>Checkout <a href=\"https://blogs.msdn.microsoft.com/appserviceteam/2017/08/08/faq-app-service-domain-preview-and-custom-domains/\">App Service Domain FAQ</a> for more questions.</p>\r\n        </div>\r\n     </div>\r\n</body>\r\n</html>\r\n"
+          },
+          "status": "succeeded",
+          "start": "2022-07-01T02:20:03.309983",
+          "end": "2022-07-01T02:20:03.681011",
+          "duration": 0.371028,
+          "tolerance_met": false
+        }
+      ]
+    },
+    "during": []
+  },
+  "run": [
+    {
+      "activity": {
+        "type": "action",
+        "name": "stop-app-service-region-a",
+        "provider": {
+          "type": "python",
+          "module": "chaosazure.webapp.actions",
+          "func": "stop_webapp",
+          "arguments": {
+            "filter": "where resourceGroup=='${region_a_resource_group}' and name=='${region_a_app_service}'"
+          },
+          "secrets": [
+            "azure"
+          ],
+          "config": [
+            "azure_subscription_id"
+          ]
+        },
+        "pauses": {
+          "after": 100
+        }
+      },
+      "output": null,
+      "status": "succeeded",
+      "start": "2022-07-01T02:18:21.453069",
+      "end": "2022-07-01T02:18:23.213662",
+      "duration": 1.760593
+    }
+  ],
+  "rollbacks": [],
+  "end": "2022-07-01T02:20:03.681341",
+  "duration": 102.34598922729492
+}
