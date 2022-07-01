@@ -13,5 +13,13 @@ To run the PowerShell sample you will need:
 2. Install chaostool kit
 
    azure/template/1-chaostoolkit.ps1
-3. Deploy the 
+   
+3. Deploy the azure resource for demo
+
+   azure/template/2-chaosdemo.ps1
+   
+4. chaos demo
+
+   
+
 
