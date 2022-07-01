@@ -22,7 +22,9 @@ To run the PowerShell sample you will need:
 
   cd chaos-experiments
   
-  update 
+  update devcontainer.ps1 with your details nd then excute 
+  
+  ./devcontainer.ps1
   
   chaos run experiment.json
   
